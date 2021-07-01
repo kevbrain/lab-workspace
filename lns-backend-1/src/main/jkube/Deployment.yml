@@ -28,11 +28,11 @@ spec:
         - name: microservice-pod 
           resources:
             requests:
-              memory: 500m
-              cpu : 750Mi
+              memory: 250Mi
+              cpu : 200m
             limits:
-              memory: 200m
-              cpu : 250Mi
+              memory: 750Mi
+              cpu : 500m
           readinessProbe:
             httpGet:
               path: actuator/health
