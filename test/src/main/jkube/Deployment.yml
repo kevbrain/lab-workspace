@@ -1,0 +1,52 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    build-commit: '@git.commit.id.abbrev@'
+    build-date: "@git.build.time@"
+  name: test
+  labels:
+    app: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      name: test
+      labels:
+        app: test
+      annotations:
+        build-commit: '@git.commit.id.abbrev@'
+        build-date: "@git.build.time@"
+    spec:
+      volumes:
+        - name: emptydirlogs
+          emptyDir: {}
+      containers:
+        - name: microservice-pod 
+          resources:
+            requests:
+              memory: 500m
+              cpu : 750Mi
+            limits:
+              memory: 200m
+              cpu : 250Mi
+          readinessProbe:
+            httpGet:
+              path: actuator/health
+              port: 8081
+              scheme: HTTP
+          env:
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+              name: http
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: emptydirlogs
+              mountPath: /Logs
+          image: >-
+            image-registry.openshift-image-registry.svc.cluster.local:5000/test/test:latest
+      restartPolicy: Always
