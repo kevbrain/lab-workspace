@@ -5,12 +5,13 @@
   <name>api-test</name>
   <version>0.0.1-SNAPSHOT</version>
   
-  <properties>
+   <properties>
    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
     	<joinfaces.version>4.4.2</joinfaces.version>
-        <sonar.coverage.exclusions>           
+        <sonar.coverage.exclusions>
+            src/main/java/**/ViewInitializerBean.java,
             src/main/java/**/*.java       
         </sonar.coverage.exclusions>
 	<maven.compiler.source>1.8</maven.compiler.source>
@@ -27,7 +28,8 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
- <dependencies>
+  
+    <dependencies>
     	<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-actuator</artifactId>
@@ -36,21 +38,25 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
-    <dependency>
+        <dependency>
       		<groupId>org.joinfaces</groupId>
       		<artifactId>primefaces-spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
+    	</dependency>
+        <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
             <version>4.6.1</version>
-    </dependency>
-    <dependency>
+        </dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.8.0</version>
-    </dependency>
-    <dependency>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
 		<scope>provided</scope>
@@ -65,7 +71,12 @@
 		<artifactId>sonar-maven-plugin</artifactId>
 		<version>3.2</version>
 	</dependency>
-</dependencies>
+	<dependency>
+	    <groupId>org.eclipse.jgit</groupId>
+	    <artifactId>org.eclipse.jgit</artifactId>
+	    <version>5.12.0.202106070339-r</version>
+	</dependency>
+    </dependencies>
 	    
     <build>
         <plugins>
