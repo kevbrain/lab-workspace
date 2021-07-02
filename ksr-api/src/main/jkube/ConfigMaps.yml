@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: ksr-api-cm-0
+  labels:
+    app: ksr-api
+data:  {} 
+---
