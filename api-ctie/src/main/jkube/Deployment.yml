@@ -1,0 +1,109 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    build-commit: '@git.commit.id.abbrev@'
+    build-date: "@git.build.time@"
+  name: api-ctie
+  labels:
+    app: api-ctie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-ctie
+  template:
+    metadata:
+      name: api-ctie
+      labels:
+        app: api-ctie
+      annotations:
+        build-commit: '@git.commit.id.abbrev@'
+        build-date: "@git.build.time@"
+    spec:
+      volumes:
+        - name: emptydirlogs
+          emptyDir: {}
+        - name: pv-vol-1
+          persistentVolumeClaim:
+            claimName: pvc-vol-1_claim
+      containers:
+        - name: microservice-pod 
+          resources:
+            requests:
+              memory: 250Mi
+              cpu : 200m
+            limits:
+              memory: 750Mi
+              cpu : 500m
+          readinessProbe:
+            httpGet:
+              path: actuator/health
+              port: 8081
+              scheme: HTTP
+          env:
+            - name: kafka.bootstrap-servers
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: kafka.bootstrap-servers
+            - name: kafka.consumer.topic
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: kafka.consumer.topic
+            - name: kafka.producer.topic
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: kafka.producer.topic
+            - name: metrics.context.classpath
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: metrics.context.classpath
+            - name: spring.datasource.driverClassName
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: spring.datasource.driverClassName
+            - name: spring.datasource.password
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: spring.datasource.password
+            - name: spring.datasource.url
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: spring.datasource.url
+            - name: spring.datasource.username
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: spring.datasource.username
+            - name: spring.jpa.database-platform
+              valueFrom:
+                configMapKeyRef:
+                  name: api-ctie-cm-0
+                  key: spring.jpa.database-platform
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+              name: http
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: emptydirlogs
+              mountPath: /Logs
+            - name: pv-vol-1
+              mountPath: /data
+          securityContext:
+            runAsUser: 44555
+          workingDir: /tmp
+          image: >-
+            image-registry.openshift-image-registry.svc.cluster.local:5000/lab-workspace/api-ctie:latest
+      serviceAccount: api-ctie-sa
+      securityContext:
+        fsGroup: 44555
+        supplementalGroups: [44555]
+      restartPolicy: Always
