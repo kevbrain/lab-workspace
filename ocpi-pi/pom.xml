@@ -70,6 +70,7 @@
 	    <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-compiler-plugin</artifactId>
+		        <version>3.8.0</version>
       	    </plugin>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
@@ -90,8 +91,7 @@
                     </from>
                     <to>
                         <image>image-registry.openshift-image-registry.svc.cluster.local:5000/lab-workspace/ocpi-pi</image>
-                        <tags>
-                        	<tag>v.2</tag>
+                        <tags>                      
                             <tag>latest</tag>
                         </tags>
                     </to>
