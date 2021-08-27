@@ -1,0 +1,52 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    build-commit: '@git.commit.id.abbrev@'
+    build-date: "@git.build.time@"
+  name: eliott
+  labels:
+    app: eliott
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eliott
+  template:
+    metadata:
+      name: eliott
+      labels:
+        app: eliott
+      annotations:
+        build-commit: '@git.commit.id.abbrev@'
+        build-date: "@git.build.time@"
+    spec:
+      volumes:
+        - name: emptydirlogs
+          emptyDir: {}
+      containers:
+        - name: microservice-pod 
+          resources:
+            requests:
+              memory: 250Mi
+              cpu : 200m
+            limits:
+              memory: 750Mi
+              cpu : 500m
+          readinessProbe:
+            httpGet:
+              path: actuator/health
+              port: 8080
+              scheme: HTTP
+          env:
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+              name: http
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: emptydirlogs
+              mountPath: /Logs
+          image: >-
+            image-registry.openshift-image-registry.svc.cluster.local:5000/lab-workspace/eliott:latest
+      restartPolicy: Always
