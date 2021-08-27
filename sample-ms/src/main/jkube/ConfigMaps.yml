@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: sample-ms-cm-0
+  labels:
+    app: sample-ms
+data:  {} 
+---

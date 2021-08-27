@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: sample-ms-route
+  labels:
+    app: sample-ms
+spec:
+  to:
+    kind: Service
+    name: sample-ms-service
+    weight: 256
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  wildcardPolicy: None
+---
