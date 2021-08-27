@@ -1,8 +1,0 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: student-api-cm-0
-  labels:
-    app: student-api
-data:  {} 
----
