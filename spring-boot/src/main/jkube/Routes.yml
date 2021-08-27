@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: spring-boot-route
+  labels:
+    app: spring-boot
+spec:
+  to:
+    kind: Service
+    name: spring-boot-service
+    weight: 256
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  wildcardPolicy: None
+---
