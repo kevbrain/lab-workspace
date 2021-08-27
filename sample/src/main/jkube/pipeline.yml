@@ -4,6 +4,8 @@ metadata:
   name: sample-pipeline
   namespace: lab-workspace
 spec:
+  params: []
+  resources: []
   tasks:
     - name: deploy
       params:
