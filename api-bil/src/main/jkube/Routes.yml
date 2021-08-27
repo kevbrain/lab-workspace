@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: api-bil-route
+  labels:
+    app: api-bil
+spec:
+  to:
+    kind: Service
+    name: api-bil-service
+    weight: 256
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  wildcardPolicy: None
+---
