@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: api-ksr-route
+  labels:
+    app: api-ksr
+spec:
+  to:
+    kind: Service
+    name: api-ksr-service
+    weight: 256
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  wildcardPolicy: None
+---
