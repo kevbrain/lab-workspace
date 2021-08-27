@@ -4,3 +4,4 @@ resources:
 - Secrets.yml
 - Service.yaml
 - Routes.yaml
+- Pipeline.yml
